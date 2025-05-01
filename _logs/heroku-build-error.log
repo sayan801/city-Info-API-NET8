@@ -1,0 +1,40 @@
+-----> Building on the Heroku-24 stack
+-----> Using buildpack: https://github.com/heroku/heroku-buildpack-dotnet
+-----> .NET app detected
+-----> SDK version detection
+       Detected .NET solution: `/tmp/build_f8e0e373/GettingStarted.sln`
+       Inferring version requirement from `/tmp/build_f8e0e373/GettingStarted.sln`
+       Detected version requirement: `^9.0`
+       Resolved .NET SDK version `9.0.203` (linux-amd64)
+-----> SDK installation
+       Downloading SDK from https://builds.dotnet.microsoft.com/dotnet/Sdk/9.0.203/dotnet-sdk-9.0.203-linux-x64.tar.gz ... (0.6s)
+       Verifying SDK checksum
+       Installing SDK
+-----> Publish app
+       Running `dotnet publish /tmp/build_f8e0e373/GettingStarted.sln --runtime linux-x64 "-p:PublishDir=bin/publish" --artifacts-path /tmp/build_artifacts`
+           Determining projects to restore...
+           Restored /tmp/build_f8e0e373/Frontend/Frontend.csproj (in 5.98 sec).
+           Frontend -> /tmp/build_artifacts/bin/Frontend/release_linux-x64/Frontend.dll
+           Frontend -> /tmp/build_f8e0e373/Frontend/bin/publish/
+           Publishing executable database migration bundle
+           Possible reasons for this include:
+             * You misspelled a built-in dotnet command.
+             * You intended to execute a .NET program, but dotnet-ef does not exist.
+             * You intended to run a global tool, but a dotnet-prefixed executable with this name could not be found on the PATH.
+           Could not execute because the specified command or file was not found.
+         /tmp/build_f8e0e373/Frontend/Frontend.csproj(26,5): error MSB3073: The command "dotnet ef migrations bundle --output bin/publish//efbundle --force" exited with code 1.
+       Done (12.8s)
+ !     Unable to publish
+ !    
+ !     The `dotnet publish` command exited unsuccessfully (exit status: 1).
+ !    
+ !     This error usually happens due to compilation errors. Use the command output
+ !     above to troubleshoot and retry your build.
+ !    
+ !     The publish process can also fail for a number of other reasons, such as
+ !     intermittent network issues, unavailability of the NuGet package feed and/or
+ !     other external dependencies, etc.
+ !    
+ !     Try again to see if the error resolves itself.
+ !     Push rejected, failed to compile .NET app.
+ !     Push failed
