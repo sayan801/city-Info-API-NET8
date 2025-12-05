@@ -194,7 +194,7 @@
             <response code="401">unauthorized request</response>
             <response code="500">internal error</response>
         </member>
-        <member name="M:CityInfoAPI.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Controllers.CitiesController},AutoMapper.IMapper,CityInfoAPI.Service.ICityService,CityInfoAPI.Service.IPointsOfInterestService,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.AspNetCore.Routing.LinkGenerator)">
+        <member name="M:CityInfoAPI.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Controllers.CitiesController},AutoMapper.IMapper,CityInfoAPI.Service.ICityService,CityInfoAPI.Service.IStateService,CityInfoAPI.Service.IPointsOfInterestService,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.AspNetCore.Routing.LinkGenerator)">
             <summary>
             Constructor
             </summary>
@@ -229,7 +229,7 @@
             <response code="200">returns city by id</response>
             <response code="400">bad request for getting city by id</response>
         </member>
-        <member name="M:CityInfoAPI.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
+        <member name="M:CityInfoAPI.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.CityCreateDto)">
             <summary>creates a City</summary>
             <param name="request"></param>
             <returns>CityDto at details route</returns>

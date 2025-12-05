@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CityInfoAPI.Data.Entities;
 using CityInfoAPI.Data.Repositories;
+using CityInfoAPI.Dtos;
 using CityInfoAPI.Dtos.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -10,14 +11,16 @@ namespace CityInfoAPI.Service
     public class CityService : ICityService
     {
         private readonly ICityRepository _repo;
+		private readonly IStatesRepository _stateRepo;
         private readonly IMapper _mapper;
         private readonly ILogger<CityService> _logger;
 
-        public CityService(ICityRepository repo, IMapper mapper, ILogger<CityService> logger)
+        public CityService(ICityRepository repo,IStatesRepository statesRepository, IMapper mapper, ILogger<CityService> logger)
         {
             _repo = repo;
             _mapper = mapper;
             _logger = logger;
+			_stateRepo = statesRepository;
         }
 
         public async Task<IEnumerable<CityWithoutPointsOfInterestDto>> GetCitiesAsync(string name, string search, int pageNumber, int pageSize)
@@ -98,6 +101,12 @@ namespace CityInfoAPI.Service
             try
             {
                 var newCityEntity = _mapper.Map<City>(request);
+				State? state = await _stateRepo.GetStateByNameAsync(request.StateName);
+				if(state == null)
+				{
+					return null;
+				} 
+				newCityEntity.StateId = state.Id;
 
                 // add it to memory.
                 await _repo.CreateCityAsync(newCityEntity);

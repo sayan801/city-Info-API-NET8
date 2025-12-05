@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CityInfoAPI.Data.Entities;
+using CityInfoAPI.Dtos;
 using CityInfoAPI.Dtos.Models;
 
 namespace CityInfoAPI.Web.Profiles

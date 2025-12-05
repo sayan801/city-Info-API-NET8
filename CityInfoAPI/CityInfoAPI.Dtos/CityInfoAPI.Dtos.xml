@@ -4,32 +4,47 @@
         <name>CityInfoAPI.Dtos</name>
     </assembly>
     <members>
-        <member name="T:CityInfoAPI.Dtos.Models.CityCreateDto">
+        <member name="T:CityInfoAPI.Dtos.CityCreateDto">
             <summary>
             object for creating a city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.CityGuid">
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.CityGuid">
             <summary>
             unique identifier for the city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.Name">
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.Name">
             <summary>
             name of city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.Description">
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.StateName">
+            <summary>
+            name of state
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.StateGuid">
+            <summary>
+            unique identifier for the state
+            </summary>   
+        </member>
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.StateCode">
+            <summary>
+            state abbreviation
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.Description">
             <summary>
             description of city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.CreatedOn">
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.CreatedOn">
             <summary>
             created on date for the city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.PointsOfInterest">
+        <member name="P:CityInfoAPI.Dtos.CityCreateDto.PointsOfInterest">
             <summary>
             points of interest to be created with city
             </summary>
@@ -225,6 +240,26 @@
         <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto.Description">
             <summary>
             description of point of interest
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.StateDto">
+            <summary>
+            state object
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.StateDto.StateGuid">
+            <summary>
+            unique identifier for the state
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.StateDto.StateCode">
+            <summary>
+            state abbreviation
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.StateDto.Name">
+            <summary>
+            state name
             </summary>
         </member>
         <member name="T:CityInfoAPI.Dtos.PaginationMetaDataDto">

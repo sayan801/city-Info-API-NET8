@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
 using CityInfoAPI.Data.Entities;
+using CityInfoAPI.Dtos;
 using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Service;
 using CityInfoAPI.Web.Controllers.RequestHelpers;
@@ -28,6 +29,7 @@ namespace CityInfoAPI.Controllers
     {
         private readonly ILogger<CitiesController> _logger;
         private readonly ICityService _service;
+        private readonly IStateService _stateService;
         private readonly IPointsOfInterestService _pointsService;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
@@ -44,12 +46,13 @@ namespace CityInfoAPI.Controllers
         /// <param name="configuration"></param>
         /// <param name="httpContextAccessor"></param>
         /// <param name="linkGenerator"></param>
-        public CitiesController(ILogger<CitiesController> logger, IMapper mapper, ICityService service,
+        public CitiesController(ILogger<CitiesController> logger, IMapper mapper, ICityService service,IStateService stateService,
                                 IPointsOfInterestService pointsService, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _service = service ?? throw new ArgumentNullException(nameof(service));
+            _stateService = stateService ?? throw new ArgumentNullException(nameof(stateService));
             _pointsService = pointsService ?? throw new ArgumentNullException(nameof(pointsService));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(service));
@@ -227,6 +230,24 @@ namespace CityInfoAPI.Controllers
                 var url = Url.Link("CreateCity", null);
                 _logger.LogInformation($"CreateCity URL: {url}. Request: {JsonConvert.SerializeObject(request)}");
 
+                var stateExists = await _stateService.StateExistsByNameAsync(request.StateName);
+                StateDto state = null;
+                if (stateExists)
+                {
+                    state = await _stateService.GetStateByNameAsync(request.StateName);
+                }
+                else
+                {
+                    state = await _stateService.CreateStateAsync(request);
+                    if (state == null)
+                {
+                    _logger.LogError("An error occurred while creating state.");
+                    return StatusCode(500, "An error occurred while creating state.");
+                }
+                }
+                request.StateName = state.Name;
+                request.StateCode = state.StateCode;
+                request.StateGuid = state.StateGuid;
                 // guids are auto-generated and not provided by client. unlikely but just in case.
                 var cityExists = await _service.CityExistsAsync(request.CityGuid);
                 if (cityExists)

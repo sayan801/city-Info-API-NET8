@@ -14,19 +14,29 @@ using Serilog.Sinks.MSSqlServer;
 
 #pragma warning disable CS1591
 
-var builder = WebApplication.CreateBuilder(args);
+//var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    EnvironmentName = Environments.Development // Set the environment name
+});
 builder.Logging.ClearProviders();
 builder.Host.UseSerilog();
+var config=builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables().Build();
+var environment = config["environmentVariables:ASPNETCORE_ENVIRONMENT"];
 
 //--LOGGING--//
-var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+//var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 if (environment == Environments.Development)
 {
     Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Information()
                     .WriteTo.MSSqlServer
                     (
-                        connectionString: builder.Configuration["DbConnectionString"],
+                        //connectionString: builder.Configuration["DbConnectionString"],
+                        connectionString: config["environmentVariables:DbConnectionString"],
                         sinkOptions: new MSSqlServerSinkOptions
                         {
                             TableName = "Logs",
@@ -48,7 +58,8 @@ else
                 .MinimumLevel.Information()
                 .WriteTo.MSSqlServer
                 (
-                    connectionString: builder.Configuration["DbConnectionString"],
+                    //connectionString: builder.Configuration["DbConnectionString"],
+                    connectionString: config["environmentVariables:DbConnectionString"],
                     sinkOptions: new MSSqlServerSinkOptions
                     {
                         TableName = "Logs",
@@ -92,10 +103,12 @@ builder.Services.AddProblemDetails(options =>
 // custom services: inject interfaceX, provide an implementation of concrete type Y
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 builder.Services.AddTransient<IMailService, CloudMailService>();
-builder.Services.AddDbContext<CityInfoDbContext>(dbContextOptions => dbContextOptions.UseSqlServer(builder.Configuration["DbConnectionString"]));
+builder.Services.AddDbContext<CityInfoDbContext>(dbContextOptions => dbContextOptions.UseSqlServer(/*builder.Configuration["DbConnectionString"]*/config["environmentVariables:DbConnectionString"],b => b.MigrationsAssembly("CityInfoAPI.Data")));
 builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IStatesRepository, StatesRepository>();
 builder.Services.AddScoped<IPointsOfInterestRepository, PointsOfInterestRepository>();
 builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IStateService, StateService>();
 builder.Services.AddScoped<IPointsOfInterestService, PointsOfInterestService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -14,6 +14,7 @@ namespace CityInfoAPI.Test.Tests
 
         private CityService _cityService;
         private readonly Mock<ICityRepository> _repo = new Mock<ICityRepository>();
+        private readonly Mock<IStatesRepository> _stateRepo = new Mock<IStatesRepository>();
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<CityService>> _logger = new Mock<ILogger<CityService>>();
         private readonly Guid _cityGuid = Guid.Parse("38276231-1918-452d-a3e9-6f50873a95d2");
@@ -22,7 +23,7 @@ namespace CityInfoAPI.Test.Tests
         public CityServiceTests()
         {
             _mapper = SetUpAutoMapper.SetUp();
-            _cityService = new CityService(_repo.Object, _mapper, _logger.Object);
+            _cityService = new CityService(_repo.Object,_stateRepo.Object, _mapper, _logger.Object);
         }
 
         [Fact]
