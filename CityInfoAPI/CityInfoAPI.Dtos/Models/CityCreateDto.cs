@@ -36,9 +36,9 @@ public class CityCreateDto
     /// <summary>
     /// state abbreviation
     /// </summary>
-    [Required(ErrorMessage = $"{nameof(StateName)} is required.")]
-    [MinLength(2, ErrorMessage = $"Minimum length for {nameof(StateName)} is 3 chars.")]
-    [MaxLength(ErrorMessage = $"Max length for {nameof(StateName)} is 2 chars.")]
+    [Required(ErrorMessage = $"{nameof(StateCode)} is required.")]
+    [MinLength(2, ErrorMessage = $"Minimum length for {nameof(StateCode)} is 2 chars.")]
+    [MaxLength(ErrorMessage = $"Max length for {nameof(StateCode)} is 2 chars.")]
     public string StateCode { get; set; } = string.Empty;
 
 
